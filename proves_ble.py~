@@ -1,0 +1,37 @@
+import btle
+
+from time import sleep, time
+
+
+class MyDelegate(btle.DefaultDelegate):
+    def __init__(self):
+        pass
+    
+    def handleNotification(self, cHandle, data):
+        global global_line
+        global_line = data
+        print "2: ", data
+
+
+addr1 = "CC:00:AA:84:34:E0"
+addr2 = "DB:0B:C0:B1:0D:38"
+
+
+ble2 = btle.Peripheral()
+ble2.setDelegate(MyDelegate())
+
+print "Connecting with peripheral2..."
+ble2.connect(addr2, "random")
+
+print "hello"
+
+sleep(0.5)
+try:
+    ble2.writeCharacteristic(0x22, '\x01\x00')
+except:
+    print "Activating notifications 2"
+
+print "Connections established, notifications on!"
+
+while True:
+    ble2.waitForNotifications(3)

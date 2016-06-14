@@ -1,0 +1,31 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import MySQLdb as mdb
+import sys
+
+try:
+    con = mdb.connect('localhost', 'slot', '123123123', 'slot_db');
+
+    cur = con.cursor()
+    
+    cur.execute("INSERT INTO users(name, username, info) VALUES('Tim', 'Tim_69', 'usuari de proves')")
+    cur.execute("INSERT INTO users(name, username, info, win_count) VALUES('Jasonlbert1', 'jasons', 'usuari de proveees', '5')")
+#    cur.execute("INSERT INTO circuits(name, description, difficulty) VALUES('Le Mans', 'Circuit en forma de vuit', '1')")
+#    cur.execute("INSERT INTO races(circuit, user1, user2, time1, time2) VALUES('58', '209', '210', '333.32', '222.23')")
+#    cur.execute("INSERT INTO laps(race, lap_num, time1, time2) VALUES('57', '1', '33.32', '22.23')")
+#    cur.execute("SELECT * from races")
+    rows = cur.fetchall()
+    for row in rows:
+        print row
+    con.commit()
+
+except mdb.Error, e:
+  
+    print "Error %d: %s" % (e.args[0],e.args[1])
+    sys.exit(1)
+    
+finally:    
+        
+    if con:    
+        con.close()

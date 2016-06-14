@@ -1,0 +1,24 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+    
+import wx
+import wx.lib.mixins.listctrl as listmix
+from db_connection import *
+from races import *
+from users import *
+        
+class PreviousResults(wx.Panel):
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent=parent)
+        #self.SetBackgroundColour((0x77,0x77,0x77))
+        db = DatabaseCon('localhost', 'slot', '123123123', 'slot_db')        
+        nb = wx.Notebook(self)
+        users = Users(nb, db)
+        races = Races(nb, db)
+        nb.AddPage(users, "Usuaris")
+        nb.AddPage(races, "Curses")
+        
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        #sizer.Add(button1, 1, wx.ALIGN_RIGHT)
+        sizer.Add(nb, 10, wx.EXPAND)
+        self.SetSizer(sizer)
